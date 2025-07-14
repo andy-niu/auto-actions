@@ -1,0 +1,6 @@
+requests
+rsa
+pytz
+python-dateutil
+chardet
+serverchan-sdk
