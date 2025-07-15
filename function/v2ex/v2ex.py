@@ -78,7 +78,7 @@ def check():
 
 # 每日签到
 def daily():
-    global signstatus, notice
+    global signstatus, notice, once
     try:
         url = f"https://www.v2ex.com/mission/daily/redeem?once={once}"
         res = requests.get(url, headers=header)
