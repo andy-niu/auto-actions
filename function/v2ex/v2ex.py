@@ -10,11 +10,9 @@ from io import StringIO
 sys.path.append("auto-actions/function/v2ex")
 from serverchan_sdk import sc_send; 
 
-if os.environ['SendKey'] != "":
-    SEND_KEY = os.environ['SendKey']
-
-if os.environ.get('V2EX_COOKIE'):
-    V2EX_COOKIE = os.environ['V2EX_COOKIE']
+# get os environ
+SEND_KEY = os.environ['SENDKEY']
+V2EX_COOKIE = os.environ['V2EX_COOKIE']
 
 # initialize the notification class
 def notify(title, msg):
