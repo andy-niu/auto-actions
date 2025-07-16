@@ -11,8 +11,8 @@ sys.path.append("auto-actions/function/v2ex")
 from serverchan_sdk import sc_send; 
 
 # get os environ
-SEND_KEY = os.environ['SENDKEY']
-V2EX_COOKIE = os.environ['V2EX_COOKIE']
+SEND_KEY = os.environ.get('SENDKEY')
+V2EX_COOKIE = os.environ.get('V2EX_COOKIE')
 
 # initialize the notification class
 def notify(title, msg):
@@ -40,7 +40,7 @@ once = None
 header = {
     "Referer": "https://www.v2ex.com/mission",
     "Host": "www.v2ex.com",
-    "user-agent": "Mozilla/5.0 (Linux; Android 10; Redmi K30) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.83 Mobile Safari/537.36",
+    "user-agent": "Mozilla/5.0 (Linux; Android 10; Redmi K30) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
     "cookie": f"'{V2EX_COOKIE}'"
 }
 
@@ -79,6 +79,7 @@ def daily():
     global signstatus, notice, once
     try:
         url = f"https://www.v2ex.com/mission/daily/redeem?once={once}"
+        print(f"签到链接: {url}")
         res = requests.get(url, headers=header)
         reg = re.compile(r"已成功领取每日登录奖励")
         if reg.search(res.text):
