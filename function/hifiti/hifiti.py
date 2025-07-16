@@ -13,7 +13,7 @@ HIFITI_BBS_Token = os.environ.get('HIFITI_BBS_TOKEN')
 def notify(title, msg):
     """Send notification using serverchan."""
     if SEND_KEY:
-        sc_send(title=title, msg=msg, sendkey=SEND_KEY)
+        sc_send(sendkey=SEND_KEY,title=title, desp=msg, options={"tags": "Hifiti签到"})
     else:
         print(f"Title: {title}\nMessage: {msg}")
 
