@@ -77,9 +77,9 @@ def main():
         message = f"Balance: {balance}\n"
         result = check_in()
         message +=f"{result}\n"
-        notify("Hifiti Sign-in Result", message)
+        notify("Hifiti automatic check-in success", message)
     else:
-        notify("Hifiti Sign-in Error", "Failed to retrieve balance or invalid cookie.")
+        notify("Hifiti automatic check-in error", "Failed to retrieve balance or invalid cookie.")
 
 
 if __name__ == "__main__":
