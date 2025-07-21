@@ -54,8 +54,8 @@ def check_in():
         print("Performing check-in...")
         response = s.post(f"https://{host}/sg_sign.htm")
         if "今天已经签过啦！" in response.text:
-            print("Already checked in today.")
-            return "Already checked in today."
+            print("今日已签到!!!")
+            return "今日已签到!!!"
         if response.status_code == 200:
             # print("Check-in response:", response.text)
             print("Check-in successful.")
@@ -74,9 +74,14 @@ def main():
     balance, status = check_and_balance()
     if status:
         print(f"Balance: {balance}")
-        message = f"Balance: {balance}\n"
+        message = f"Check-in before balance: {balance}\n"
         result = check_in()
         message +=f"{result}\n"
+        balance, status = check_and_balance()
+        if status:
+            message += f"Balance after check-in: {balance}\n"
+        else:
+            message += "Failed to retrieve balance after check-in.\n"
         notify("Hifiti automatic check-in success", message)
     else:
         notify("Hifiti automatic check-in error", "Failed to retrieve balance or invalid cookie.")
