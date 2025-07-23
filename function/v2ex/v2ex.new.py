@@ -1,5 +1,5 @@
 import requests
-import sys
+import sys,time
 import datetime
 import re
 import os
@@ -42,9 +42,16 @@ host = "www.v2ex.com"
 # Define headers
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-    "Referer": f"https://{host}/mission",
+    "Referer": f"https://{host}/mission/daily",
     "Host": f"{host}",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "sec-fetch-site": "same-origin",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-user": "?1",
+    "sec-fetch-dest": "document",
+    "sec-ch-ua": '"Not_A Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"macOS"'
 }
 s.headers.update(headers)
 s.cookies.update({'A2': f"{V2EX_TOKEN}"})
@@ -86,7 +93,7 @@ def daily():
     global signstatus, notice, once, s, host
     try:
         sio.write(f"Check-in in with once: {once}\n")
-        url = f"https://{{host}}/mission/daily/redeem?once={once}"
+        url = f"https://{host}/mission/daily/redeem?once={once}"
         sio.write(f"签到链接: {url}\n")
         res = s.get(url)
         reg = re.compile(r"已成功领取每日登录奖励")
@@ -127,6 +134,7 @@ def main():
             notify(title="V2EX签到失败", msg="获取V2EX数据失败, cookie未定义")
             return
         check()
+        time.sleep(1)  # 等待1秒以确保请求完成
         if once and signstatus == 0:
             daily()
             balance()
