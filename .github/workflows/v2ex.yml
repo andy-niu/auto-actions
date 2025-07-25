@@ -43,6 +43,7 @@ jobs:
           V2EX_COOKIE: ${{ secrets.V2EX_COOKIE }}
           SENDKEY: ${{ secrets.SENDKEY }}
           OS_TZ: ${{ secrets.OS_TZ }}
+          V2EX_TOKEN: ${{ secrets.V2EX_TOKEN }}
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
