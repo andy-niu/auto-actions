@@ -58,6 +58,7 @@ headers = {
 }
 s.headers.update(headers)
 s.cookies.update({'A2': f"{V2EX_TOKEN}"})
+s.headers.update({'V2EX_LANG': 'zhcn'})
 
 
 # 获取once检查是否已签到
@@ -104,9 +105,15 @@ def daily():
             notice += "签到成功\n"
             signstatus = 1
         else:
-            notice += "签到失败Cookie疑似失效\n"
-            signstatus = 0
-            sio.write("签到失败Cookie疑似失效\n")
+            reg = re.compile(r"请重新点击一次以领取每日登录奖励")
+            if reg.search(res.text):
+                notice += "Message提示：请重新点击一次以领取每日登录奖励\n"
+                signstatus = 0
+                sio.write("Message提示：请重新点击一次以领取每日登录奖励\n")
+            else:
+                notice += "签到失败Cookie疑似失效\n"
+                signstatus = 0
+                sio.write("签到失败Cookie疑似失效\n")
     except Exception as err:
       sio.write(f"签到异常-daily: {err}\n")
 
