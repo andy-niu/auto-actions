@@ -19,6 +19,8 @@ def notify(title, msg):
         sc_send(sendkey=SEND_KEY,title=title, desp=msg, options={"tags": "Hifiti签到"})
     else:
         print(f"Title: {title}\nMessage: {msg}")
+if V2EX_TOKEN
+  print(f"token: {V2EX_TOKEN}")
 
 # 初始化日志
 sio = StringIO('签到日志\n')
