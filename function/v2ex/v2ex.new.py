@@ -132,6 +132,8 @@ def main():
         if not V2EX_TOKEN:
             sio.write("你的cookie呢!!!\n获取V2EX数据失败, cookie未定义\n")
             notify(title="V2EX签到失败", msg="获取V2EX数据失败, cookie未定义")
+            # 返回前打印日志
+            print(sio.getvalue())
             return
         check()
         time.sleep(1)  # 等待1秒以确保请求完成
