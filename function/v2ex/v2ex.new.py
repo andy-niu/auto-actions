@@ -19,8 +19,14 @@ def notify(title, msg):
         sc_send(sendkey=SEND_KEY,title=title, desp=msg, options={"tags": "Hifiti签到"})
     else:
         print(f"Title: {title}\nMessage: {msg}")
+<<<<<<< HEAD
 if V2EX_TOKEN:
   print(f"token: {V2EX_TOKEN}")
+=======
+
+# if V2EX_TOKEN:
+#   print(f"token: {V2EX_TOKEN}")
+>>>>>>> 605bee83a002ca7c5e636a688efcf73723520ca1
 
 # 初始化日志
 sio = StringIO('签到日志\n')
@@ -47,16 +53,12 @@ headers = {
     "Referer": f"https://{host}/mission/daily",
     "Host": f"{host}",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "sec-fetch-site": "same-origin",
-    "sec-fetch-mode": "navigate",
-    "sec-fetch-user": "?1",
-    "sec-fetch-dest": "document",
-    "sec-ch-ua": '"Not_A Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": '"macOS"'
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "Connection": "keep-alive",
 }
 s.headers.update(headers)
 s.cookies.update({'A2': f"{V2EX_TOKEN}"})
+s.headers.update({'V2EX_LANG': 'zhcn'})
 
 
 # 获取once检查是否已签到
@@ -103,9 +105,15 @@ def daily():
             notice += "签到成功\n"
             signstatus = 1
         else:
-            notice += "签到失败Cookie疑似失效\n"
-            signstatus = 0
-            sio.write("签到失败Cookie疑似失效\n")
+            reg = re.compile(r"请重新点击一次以领取每日登录奖励")
+            if reg.search(res.text):
+                notice += "Message提示：请重新点击一次以领取每日登录奖励\n"
+                signstatus = 0
+                sio.write("Message提示：请重新点击一次以领取每日登录奖励\n")
+            else:
+                notice += "签到失败Cookie疑似失效\n"
+                signstatus = 0
+                sio.write("签到失败Cookie疑似失效\n")
     except Exception as err:
       sio.write(f"签到异常-daily: {err}\n")
 
