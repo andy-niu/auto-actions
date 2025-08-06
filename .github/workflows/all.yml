@@ -32,7 +32,7 @@ jobs:
         run: pip install -r ./requirements.txt
 
       - name: '运行 Hifiti签到'
-        run: python3 function/smzdm/smzdm.py
+        run: python3 function/hifiti/hifiti.py
         env:
           HIFITI_BBS_TOKEN: ${{ secrets.HIFITI_BBS_TOKEN }}
           SENDKEY: ${{ secrets.SENDKEY }}

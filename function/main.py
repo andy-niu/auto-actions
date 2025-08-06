@@ -1,7 +1,7 @@
 # 修复相对导入问题，使用绝对导入
 from hifiti.hifiti import main as hifiti_checkin
 from v2ex.v2ex import main as v2ex_checkin
-from smzmd.smzdm import main as smzdm_checkin
+from smzdm.smzdm import main as smzdm_checkin
 
 def main():
   print(f"<---------- hifiti 签到开始 ---------->")
