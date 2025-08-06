@@ -128,8 +128,8 @@ class V2EXClient:
             sio.write(f"签到异常-balance: {err}\n")
             return False
 
-if V2EX_TOKEN:
-    print(f"token: {V2EX_TOKEN}")
+# if V2EX_TOKEN:
+#     print(f"token: {V2EX_TOKEN}")
 
 # 签到主函数
 def main():

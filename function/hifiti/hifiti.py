@@ -71,6 +71,12 @@ def check_in():
 def main():
     """Main function to perform Hifiti sign-in."""
     print("Starting Hifiti sign-in process...")
+
+    if not HIFITI_BBS_Token:
+        print("你的cookie呢!!!\n获取HIFITI数据失败, HIFITI_BBS_Token未定义\n")
+        notify(title="HIFITI签到失败", msg="获取HIFITI数据失败, HIFITI_BBS_Token未定义")
+        return
+    
     balance, status = check_and_balance()
     if status:
         print(f"Balance: {balance}")

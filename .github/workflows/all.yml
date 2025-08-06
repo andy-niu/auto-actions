@@ -1,21 +1,15 @@
-# This is a basic workflow to help you get started with Actions
+# This is a basic workflow that is manually triggered
 
-name: V2ex签到
+name: hifiti签到
 
-# Controls when the workflow will run
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  # push:
-  #   branches: [ "main" ]
-  # pull_request:
-  #   branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # schedule:
-  #   - cron: '5 0 * * *'
-  # watch:
-  #   types: [started]
+  schedule:
+    - cron: '10 0 * * *'
+  watch:
+    types: [started]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,20 +31,24 @@ jobs:
       - name: '安装依赖包'
         run: pip install -r ./requirements.txt
 
-      - name: '运行 V2ex签到'
-        run: python3 function/v2ex/v2ex.new.py
+      - name: '运行 Hifiti签到'
+        run: python3 function/smzdm/smzdm.py
         env:
-          V2EX_COOKIE: ${{ secrets.V2EX_COOKIE }}
+          HIFITI_BBS_TOKEN: ${{ secrets.HIFITI_BBS_TOKEN }}
           SENDKEY: ${{ secrets.SENDKEY }}
           OS_TZ: ${{ secrets.OS_TZ }}
-          V2EX_TOKEN: ${{ secrets.V2EX_TOKEN }}
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
       
+      - name: '运行 V2ex签到'
+        run: python3 function/v2ex/v2ex.py
+        env:
+          V2EX_COOKIE: ${{ secrets.V2EX_COOKIE }}
+          V2EX_TOKEN: ${{ secrets.V2EX_TOKEN }}
+          SENDKEY: ${{ secrets.SENDKEY }}
+          OS_TZ: ${{ secrets.OS_TZ }}
+      
+      - name: '运行 SMZDM签到'
+        run: python3 function/smzdm/smzdm.py
+        env:
+          SMZDM_COOKIE: ${{ secrets.SMZDM_COOKIE }}
+          SENDKEY: ${{ secrets.SENDKEY }}
+          OS_TZ: ${{ secrets.OS_TZ }}
