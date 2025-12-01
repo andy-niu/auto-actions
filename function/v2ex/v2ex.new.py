@@ -177,6 +177,5 @@ def main():
     print(sio.getvalue())
     print("签到完成")
 
-
 if __name__ == '__main__':
     main()
