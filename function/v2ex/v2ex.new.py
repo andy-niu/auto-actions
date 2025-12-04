@@ -6,7 +6,8 @@ import os
 import pytz
 from io import StringIO
 sys.path.append("auto-actions/function/v2ex")
-from serverchan_sdk import sc_send; 
+from serverchan_sdk import sc_send
+from bs4 import BeautifulSoup
 
 # get os environ
 SEND_KEY = os.environ.get('SENDKEY')
@@ -127,6 +128,38 @@ class V2EXClient:
         except Exception as err:
             sio.write(f"签到异常-balance: {err}\n")
             return False
+        
+    def all_balance(self, sio):
+        try:
+            sio.write("Checking all balance...\n")
+            url = f"https://{self.host}/balance"
+            res = self.session.get(url)
+
+            soup = BeautifulSoup(res.text, 'html.parser')
+            # 定位balance_area的div
+            balance_div = soup.find('div', class_='balance_area')
+            # 提取所有文本中的数字
+            balance_div = soup.find('div', class_='balance_area')
+
+            if balance_div:
+                # 找到 silver 对应的 img 标签，取其前面的文本（42）
+                silver_img = balance_div.find('img', src=re.compile('silver'))
+                silver_num = silver_img.previous_sibling.strip() if silver_img else None
+                
+                # 找到 bronze 对应的 img 标签，取其前面的文本（50）
+                bronze_img = balance_div.find('img', src=re.compile('bronze'))
+                bronze_num = bronze_img.previous_sibling.strip() if bronze_img else None
+
+                sio.write(f"银币：{silver_num}，铜币：{bronze_num}\n")
+                self.notice += f"银币：{silver_num}，铜币：{bronze_num}\n"
+                return True
+            else:
+                sio.write("余额查询失败-all_balance,未找到目标div\n")
+                self.notice += "余额查询失败-all_balance,未找到目标div\n"
+                return False
+        except Exception as err:
+            sio.write(f"签到异常-all_balance: {err}\n")
+            return False
 
 # if V2EX_TOKEN:
 #     print(f"token: {V2EX_TOKEN}")
@@ -157,11 +190,15 @@ def main():
             return
 
         time.sleep(1)  # 等待1秒以确保请求完成
+        
+        # 查询余额测试
+        #client.all_balance(sio)
 
         # 如果未签到且获取到once参数，则执行签到
         if client.once and client.signstatus == 0:
             client.daily(sio)
             client.balance(sio)
+            client.all_balance(sio)
             if client.signstatus == 0:
                 sio.write("签到失败Cookie疑似失效\n")
                 sio.write(f"headers: { str(client.session.headers) }\n")
