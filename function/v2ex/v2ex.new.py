@@ -118,12 +118,12 @@ class V2EXClient:
             reg = re.compile(r"\d+?\s的每日登录奖励\s\d+\s铜币")
             match = reg.search(res.text)
             if match:
-                sio.write(f"余额查询成功: {match.group(0)}\n")
+                sio.write(f"每日登录奖励成功: {match.group(0)}\n")
                 self.notice += match.group(0)
                 return True
             else:
-                sio.write("余额查询失败\n")
-                self.notice += "余额查询失败\n"
+                sio.write("每日登录奖励,查询失败\n")
+                self.notice += "每日登录奖励,余额查询失败\n"
                 return False
         except Exception as err:
             sio.write(f"签到异常-balance: {err}\n")
@@ -150,15 +150,15 @@ class V2EXClient:
                 bronze_img = balance_div.find('img', src=re.compile('bronze'))
                 bronze_num = bronze_img.previous_sibling.strip() if bronze_img else None
 
-                sio.write(f"银币：{silver_num}，铜币：{bronze_num}\n")
-                self.notice += f"银币：{silver_num}，铜币：{bronze_num}\n"
+                sio.write(f"余额查询成功: 银币：{silver_num}，铜币：{bronze_num}\n")
+                self.notice += f"余额查询成功: 银币：{silver_num}，铜币：{bronze_num}\n"
                 return True
             else:
                 sio.write("余额查询失败-all_balance,未找到目标div\n")
                 self.notice += "余额查询失败-all_balance,未找到目标div\n"
                 return False
         except Exception as err:
-            sio.write(f"签到异常-all_balance: {err}\n")
+            sio.write(f"余额查询-all_balance: {err}\n")
             return False
 
 # if V2EX_TOKEN:
