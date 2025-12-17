@@ -151,7 +151,7 @@ class V2EXClient:
                 bronze_num = bronze_img.previous_sibling.strip() if bronze_img else None
 
                 sio.write(f"余额查询成功: 银币：{silver_num}，铜币：{bronze_num}\n")
-                self.notice += f"余额查询成功: 银币：{silver_num}，铜币：{bronze_num}\n"
+                self.notice += (f"余额查询成功: 银币：{silver_num}，铜币：{bronze_num}\n")
                 return True
             else:
                 sio.write("余额查询失败-all_balance,未找到目标div\n")
